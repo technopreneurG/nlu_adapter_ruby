@@ -5,7 +5,7 @@ module NLUWS
 		autoload :Dialogflow,			'../lib/nluws/dialogflow'
 	end
 
-	def self.new(name, options={})
-	    aforadapter = Adapters.const_get(name).new
+	def self.new(name, options = {})
+	    aforadapter = Adapters.const_get(name).new(options)
 	end
 end
