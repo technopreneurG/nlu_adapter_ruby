@@ -1,6 +1,6 @@
 require "google/cloud/dialogflow"
 
-module NLUWS
+module NluAdapter
 	module Adapters
 		class Dialogflow
 			def initialize(options = {})
@@ -64,7 +64,7 @@ module NLUWS
 			end
 
 			class Intent
-				include NLUWSIntent
+				include NluAdapterIntent
 				attr_accessor :id
 
 				def initialize(options = {})
@@ -93,7 +93,7 @@ module NLUWS
 			end
 
 			class IntentCollection
-				include NLUWSIntentCollection
+				include NluAdapterIntentCollection
 
 				def initialize(options = {})
 				end

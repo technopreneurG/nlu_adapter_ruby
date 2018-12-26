@@ -2,7 +2,7 @@
 require 'aws-sdk-lex'
 require 'aws-sdk-lexmodelbuildingservice'
 
-module NLUWS
+module NluAdapter
 	module Adapters
 		class Lex
 
@@ -105,7 +105,7 @@ module NLUWS
 
 			#Classes
 			class Intent
-				include NLUWSIntent
+				include NluAdapterIntent
 				def initialize(options = {})
 					@name = options[:name]
 					@version = options[:version]
@@ -130,7 +130,7 @@ module NLUWS
 
 			#Classes
 			class IntentCollection
-				include NLUWSIntentCollection
+				include NluAdapterIntentCollection
 				attr_accessor :extra
 
 				def initialize(options = {})
