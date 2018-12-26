@@ -13,7 +13,8 @@ module NluAdapter
 				formatted_session = Google::Cloud::Dialogflow::V2::SessionsClient.session_path(@project_id, @session_id)
 				query_input = Google::Cloud::Dialogflow::V2::QueryInput.new({text: {language_code: language_code, text: text}})
 				response = sessions_client.detect_intent(formatted_session, query_input)
-				response.query_result.intent.display_name
+
+				return { intent_name: response.query_result.intent.display_name }
 			end
 
 			def get_intent(name)
