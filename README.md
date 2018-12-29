@@ -1,6 +1,8 @@
 # NluAdapter
 An adapter to various NLU web services
 
+[![Gem Version](https://badge.fury.io/rb/nlu_adapter.svg)](https://badge.fury.io/rb/nlu_adapter)
+
 ## Installation
 
 Add this line to your application's Gemfile:
@@ -41,4 +43,4 @@ The gem is available as open source under the terms of the [MIT License](https:/
 
 ## Code of Conduct
 
-Everyone interacting in the NluAdapter project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/technopreneurG/nlu_adapter/blob/master/CODE_OF_CONDUCT.md).
+Everyone interacting in the NluAdapter project’s codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/technopreneurG/nlu_adapter_ruby/blob/master/CODE_OF_CONDUCT.md).
