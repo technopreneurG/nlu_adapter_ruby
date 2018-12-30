@@ -23,9 +23,15 @@ Or install it yourself as:
 
 Check [documentation](docs) for usage.
 
-## Supported NLU services
-1. [Aws Lex](https://aws.amazon.com/lex/)
-2. [Google Dialogflow](https://dialogflow.com/)
+## NLU Adapter support matrix
+
+C: Create, R: Get, U: Update, D: Delete
+
+NLU Service | Intent | Intet Collection
+----------- | ------ | ----------------
+[Aws Lex](https://aws.amazon.com/lex/) | C,R,U | C,R,U
+[Google Dialogflow](https://dialogflow.com/) | C,R,U | To-Do
+
 
 ## Development
 
@@ -35,7 +41,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/technopreneurG/nlu_adapter. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/technopreneurG/nlu_adapter_ruby. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 ## License
 
