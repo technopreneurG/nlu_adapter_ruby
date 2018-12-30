@@ -1,3 +1,7 @@
+0.1.2 (31/Dec/2018)
+---
+* fixed lib path error
+
 0.1.1 (27/Dec/2018)
 ---
 * Updated documenation
