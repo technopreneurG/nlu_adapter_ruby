@@ -27,10 +27,10 @@ Check [documentation](docs) for usage.
 
 C: Create, R: Get, U: Update, D: Delete
 
-NLU Service | Intent | Intet Collection
------------ | ------ | ----------------
-[Aws Lex](https://aws.amazon.com/lex/) | C,R,U | C,R,U
-[Google Dialogflow](https://dialogflow.com/) | C,R,U | To-Do
+NLU Service | Intent | Intet Collection | Intent identification
+----------- | ------ | ---------------- | ---------------------
+[Aws Lex](https://aws.amazon.com/lex/) ([doc](docs/lex.md)) | C,R,U | C,R,U | Yes
+[Google Dialogflow](https://dialogflow.com/) ([doc](docs/dialogflow.md)) | C,R,U | To-Do | Yes
 
 
 ## Development
