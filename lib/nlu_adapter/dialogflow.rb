@@ -3,6 +3,8 @@ require "google/cloud/dialogflow"
 module NluAdapter
 	module Adapters
 		class Dialogflow
+			include ParseHelper
+
 			def initialize(options = {})
 				@project_id = options[:project_id]
 				@session_id = options[:session_id]

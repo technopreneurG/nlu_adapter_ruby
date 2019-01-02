@@ -1,10 +1,12 @@
 
+
 require 'aws-sdk-lex'
 require 'aws-sdk-lexmodelbuildingservice'
 
 module NluAdapter
 	module Adapters
 		class Lex
+			include ParseHelper
 
 			def initialize(options = {})
 				#creds & region from config/env
