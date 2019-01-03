@@ -24,7 +24,7 @@ module NluAdapter
 			result
 		end
 
-		#run the tests with test_data and generate output in supported format
+		# run the parse tests with test_data and generate test_results in supported format
 		#
 		#  Example input/output
 		#  test_data
@@ -43,7 +43,7 @@ module NluAdapter
 		# @param output_format [Symbol] supported formats :csv, :json or :hash
 		# @return [test_results]: output the test results in expected format
 		#
-		def test(test_data, output_format = :hash)
+		def parse_test(test_data, output_format = :hash)
 			test_results = []
 			test_data.each do |intent_name, texts|
 				resp = bulk_parse(texts)
@@ -51,6 +51,7 @@ module NluAdapter
 					test_results << {text: t, expected: intent_name, got: resp[t]}
 				end
 			end
+
 			case output_format
 			when :json
 				return test_results.to_json
@@ -62,13 +63,33 @@ module NluAdapter
 				puts 'Warning: valid format not specified'
 				return test_results
 			end
+
+		end
+
+
+		# run the parse tests with test_data and generate test report
+		#
+		# @param test_data [Json]: Test data in specified format
+		# @return [test_report]: generate a test report (Only Accurcacy is available)
+		# @todo Precision, Recall, F1-Score
+		#
+		def parse_test_report(test_data)
+			test_results = parse_test(test_data)
+			total = test_results.size
+			correct = 0
+			test_results.each do |result|
+				if result[:expected] == result[:got]
+					correct+=1
+				end
+			end
+			{ accuracy: (correct.fdiv(total) * 100).round(4) }
 		end
 
 		private
 		def to_csv(test_results)
 			csv_string = CSV.generate do |csv|
-				test_results.each do |hash|
-					csv << hash.values
+				test_results.each do |result|
+					csv << result.values
 				end
 			end
 			csv_string
