@@ -17,7 +17,10 @@ module NluAdapter
 				@lexm_client = Aws::LexModelBuildingService::Client.new()
 			end
 
-			#understand a given text
+			# Understand a given text
+			# @param text [String] a text to parse using the NLU provider
+			# @return [Json] return the identified intent name
+			#
 			def parse(text)
 				intent_name = nil
 				begin
@@ -41,7 +44,11 @@ module NluAdapter
 				return { intent_name: intent_name }
 			end
 
-			#get an instance of Intent, if it exists
+			# Get an instance of Intent, if it exists else nil
+			# @param name [String] name of the intent
+			# @param version [String] version of the intent
+			# @return [Intent] intent object
+			#
 			def get_intent(name, version = nil)
 				version = '$LATEST'
 
