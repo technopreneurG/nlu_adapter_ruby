@@ -18,6 +18,7 @@ module NluAdapter
 			end
 
 			# Understand a given text
+			#
 			# @param text [String] a text to parse using the NLU provider
 			# @return [Json] return the identified intent name
 			#
@@ -45,6 +46,7 @@ module NluAdapter
 			end
 
 			# Get an instance of Intent, if it exists else nil
+			#
 			# @param name [String] name of the intent
 			# @param version [String] version of the intent
 			# @return [Intent] intent object
@@ -62,7 +64,12 @@ module NluAdapter
 				return nil
 			end
 
-			#get a new instance of Intent
+			# Get a new instance of Intent
+			#
+			# @param name [String] name of the intent
+			# @param utterences [Array] phrases for training
+			# @return [Intent] Intent object
+			#
 			def new_intent(name, utterences= [])
 				#check for existing intent, and get checksum
 
@@ -74,12 +81,20 @@ module NluAdapter
 				return i
 			end
 
-			#given an Intent object, create it in Lex
+			# Given an Intent object, create/update it in Lex
+			#
+			# @param intent [Intent] Intent object
+			# @return [Intent] Intent object
+			#
+			# @todo convert response -> Intent
+			#
 			def create_intent(intent)
 				resp = @lexm_client.put_intent(intent.to_h)
 			end
 
-			#get an instance of IntentCollection, if it exists
+			# Get an instance of IntentCollection, if it exists
+			# @param name [String] intent collection name
+			# @param version [String] version
 			def get_intent_collection(name, version = nil)
 				version = '$LATEST'
 				begin
@@ -92,7 +107,9 @@ module NluAdapter
 				return nil
 			end
 
-			#get a new instance of Intent
+			# Get a new instance of Intent
+			# @param name [String] intent collection name
+			# @param intents [Array<Intent>] array of intent objects
 			def new_intent_collection(name, intents)
 				ic = get_intent_collection(name)
 
@@ -102,7 +119,10 @@ module NluAdapter
 				return ic
 			end
 
-			#given an IntentCollection object, create it in Lex
+			# Given an IntentCollection object, create it in Lex
+			#
+			# @param collection [IntentCollection] the Bot to be created
+			#
 			def create_intent_collection(collection)
 				#create/update intents
 				collection.intents.each do |i|
@@ -112,7 +132,7 @@ module NluAdapter
 				resp = @lexm_client.put_bot(collection.to_h)
 			end
 
-			#Classes
+			# Classes
 			class Intent
 				include NluAdapterIntent
 				def initialize(options = {})
@@ -121,6 +141,9 @@ module NluAdapter
 					@checksum = options[:checksum]
 				end
 
+				# Convert self to Hash
+				# @return [Hash] ruby hash
+				#
 				def to_h
 					{
 						name: @name,
@@ -132,6 +155,9 @@ module NluAdapter
 					}
 				end
 
+				# convert self to Json
+				# @return [json] json
+				#
 				def to_json
 					to_h.to_json
 				end
@@ -148,6 +174,9 @@ module NluAdapter
 					@intents = options[:intents]
 				end
 
+				# Convert self to Hash
+				# @return [Hash] ruby hash
+				#
 				def to_h
 					intents = []
 					@intents.each do |i|
@@ -192,6 +221,9 @@ module NluAdapter
 					}
 				end
 
+				# Convert self to Json
+				# @return [Json] json
+				#
 				def to_json
 					to_h.to_json
 				end

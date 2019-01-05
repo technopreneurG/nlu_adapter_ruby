@@ -4,6 +4,9 @@ require 'json'
 module NluAdapterIntent
 	attr_accessor :name, :utterences
 
+	# Convert self to Hash
+	# @return [Hash] ruby hash
+	#
 	def to_h
 		{
 			:name => @name,
@@ -11,6 +14,9 @@ module NluAdapterIntent
 		}
 	end
 
+	# Convert self to Json
+	# @return [Json] json
+	#
 	def to_json
 		to_h.to_json
 	end

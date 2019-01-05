@@ -9,6 +9,9 @@ module NluAdapterIntentCollection
 		@intents = intents
 	end
 
+	# Convert self to Hash
+	# @return [Hash] ruby hash
+	#
 	def to_h
 		{
 			:name => @name,
@@ -16,6 +19,9 @@ module NluAdapterIntentCollection
 		}
 	end
 
+	# Convert self to Json
+	# @return [Json] json
+	#
 	def to_json
 		to_h.to_json
 	end
