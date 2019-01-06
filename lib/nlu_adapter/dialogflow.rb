@@ -10,15 +10,26 @@ module NluAdapter
 				@session_id = options[:session_id]
 			end
 
-			def parse(text, language_code = 'en')
+			# Understand a given text
+			#
+			# @param text [String] a text to parse using the NLU provider
+			# @return [Json] return the identified intent name
+			#
+			def parse(text)
 				sessions_client = Google::Cloud::Dialogflow::Sessions.new(version: :v2)
 				formatted_session = Google::Cloud::Dialogflow::V2::SessionsClient.session_path(@project_id, @session_id)
+				language_code = 'en'
 				query_input = Google::Cloud::Dialogflow::V2::QueryInput.new({text: {language_code: language_code, text: text}})
 				response = sessions_client.detect_intent(formatted_session, query_input)
 
 				return { intent_name: response.query_result.intent.display_name }
 			end
 
+			# Get an instance of Intent, if it exists else nil
+			#
+			# @param name [String] name of the intent
+			# @return [Intent] intent object
+			#
 			def get_intent(name)
 				intents_client = Google::Cloud::Dialogflow::Intents.new(version: :v2)
 				formatted_parent = Google::Cloud::Dialogflow::V2::IntentsClient.project_agent_path(@project_id)
@@ -33,6 +44,12 @@ module NluAdapter
 				return nil
 			end
 
+			# Get a new instance of Intent
+			#
+			# @param name [String] name of the intent
+			# @param utterences [Array] phrases for training
+			# @return [Intent] Intent object
+			#
 			def new_intent(name, utterences = [])
 				i = get_intent(name)
 
@@ -42,6 +59,13 @@ module NluAdapter
 				return i
 			end
 
+			# Given an Intent object, create/update it in Dialogflow
+			#
+			# @param intent [Intent] Intent object
+			# @return [Intent] Intent object
+			#
+			# @todo convert response -> Intent
+			#
 			def create_intent(intent)
 				intents_client = Google::Cloud::Dialogflow::Intents.new(version: :v2)
 				formatted_parent = Google::Cloud::Dialogflow::V2::IntentsClient.project_agent_path(@project_id)
@@ -76,6 +100,9 @@ module NluAdapter
 					@utterences = options[:utterences]
 				end
 
+				# Convert self to Hash
+				# @return [Hash] ruby hash
+				#
 				def to_h
 					training_phrases = []
 					@utterences.each do |u|
@@ -89,6 +116,9 @@ module NluAdapter
 					}
 				end
 
+				# convert self to json
+				# @return [json] json
+				#
 				def to_json
 					to_h.to_json
 				end
@@ -101,9 +131,15 @@ module NluAdapter
 				def initialize(options = {})
 				end
 
+				# Convert self to Hash
+				# @return [Hash] ruby hash
+				#
 				def to_h
 				end
 
+				# convert self to json
+				# @return [json] json
+				#
 				def to_json
 				end
 			end
