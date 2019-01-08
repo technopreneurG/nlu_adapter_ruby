@@ -75,14 +75,16 @@ module NluAdapter
 		#
 		def parse_test_report(test_data)
 			test_results = parse_test(test_data)
-			total = test_results.size
-			correct = 0
+			expected = []
+			got = []
 			test_results.each do |result|
-				if result[:expected] == result[:got]
-					correct+=1
-				end
+				expected << result[:expected]
+				got << result[:got]
 			end
-			{ accuracy: (correct.fdiv(total) * 100).round(4) }
+
+			m = Metrics.new(expected, got)
+
+			return {accuracy: m.accuracy}
 		end
 
 		private
