@@ -6,7 +6,7 @@ require "nlu_adapter/version"
 Gem::Specification.new do |spec|
   spec.name          = "nlu_adapter"
   spec.version       = NluAdapter::VERSION
-  spec.authors       = ["Girish"]
+  spec.authors       = ["Girish Nair"]
   spec.email         = ["getgirish@gmail.com"]
 
   spec.summary       = %q{NLU Adapter - An adapter for various NLU web services}
@@ -41,10 +41,12 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency "rspec", "~> 3.8"
 
   #Official AWS Ruby gem for Amazon Lex Runtime Service. This gem is part of the AWS SDK for Ruby.
-  spec.add_dependency('aws-sdk-lex', '1.9')
-  spec.add_dependency('aws-sdk-lexmodelbuildingservice', '1.12')
+  spec.add_dependency('aws-sdk-lex', '~> 1.9')
+  spec.add_dependency('aws-sdk-lexmodelbuildingservice', '~> 1.12')
  
   #google-cloud-dialogflow is the official library for Dialogflow API.
-  spec.add_dependency('google-cloud-dialogflow', '0.2.3')
+  spec.add_dependency('google-cloud-dialogflow', '~> 0.2.3')
 
+  #An implementation of Matrix and Vector classes.
+  spec.add_dependency('matrix', '~> 0.1.0')
 end

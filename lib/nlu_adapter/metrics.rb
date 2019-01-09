@@ -1,3 +1,5 @@
+require 'matrix'
+
 module NluAdapter
 
 	# A utility class to calculate classification matrics
@@ -8,13 +10,13 @@ module NluAdapter
 		# Constructor
 		# @param actual [Array] an array of actual results (true values)
 		# @param predicted [Array] an array of predicted results (predicted values)
-		# @param labels [Array] an array of labels for the results,
+		# @param class_labels [Array] an array of class_labels for the results,
 		#               this is required if actual & predicted values are numeric
 		#
-		def initialize(actual, predicted, labels = [])
+		def initialize(actual, predicted, class_labels = [])
 			@actual = actual
 			@predicted = predicted
-			@labels = labels
+			@class_labels = class_labels
 		end
 
 		# Caclulate the accuracy
@@ -34,6 +36,37 @@ module NluAdapter
 				correct+=1 if @predicted[i] == v
 			end
 			(correct.fdiv(total) * 100).round(4)
+		end
+
+		# Get the confusion matrix
+		# @return [Matrix] confusion matrix
+		# @see https://en.wikipedia.org/wiki/Confusion_matrix
+		#
+		def confusion_matrix
+			class_labels = @class_labels
+			actual = @actual
+			predicted = @predicted
+
+			#if no class_labels, convert to numeric values, and extract the class_labels
+			if @class_labels.empty?
+				class_labels = (@actual + @predicted).uniq.sort
+				@actual.each_with_index do |v, i|
+					actual[i] = class_labels.index(v)
+				end
+
+				@predicted.each_with_index do |v, i|
+					predicted[i] = class_labels.index(v)
+				end
+			end
+
+			m = Matrix.zero(class_labels.size)
+
+			actual.each_with_index do |vi, i|
+				vj = predicted[i]
+				m[vi, vj] = m[vi, vj] + 1
+			end
+			@m = m
+			return m
 		end
 
 		#todo: precision, recall, f1-score

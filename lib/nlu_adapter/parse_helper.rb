@@ -84,7 +84,7 @@ module NluAdapter
 
 			m = Metrics.new(expected, got)
 
-			return {accuracy: m.accuracy}
+			return {accuracy: m.accuracy, confusion_matrix: m.confusion_matrix}
 		end
 
 		private
