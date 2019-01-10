@@ -57,6 +57,17 @@ module NluAdapter
 				@predicted.each_with_index do |v, i|
 					predicted[i] = class_labels.index(v)
 				end
+			else
+				#check if any string passed in actual/predicted
+				i = actual.select { |a| a.is_a?(String) }.size
+				j = predicted.select { |a| a.is_a?(String) }.size
+
+				if i > 0 || j > 0
+					#todo: fix it OR throw error
+					puts "actual, predicted & class_labels array having string values not implemented"
+					return
+
+				end
 			end
 
 			m = Matrix.zero(class_labels.size)
