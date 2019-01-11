@@ -2,9 +2,12 @@ require "google/cloud/dialogflow"
 
 module NluAdapter
 	module Adapters
+		# Dialogflow wrapper class
+		#
 		class Dialogflow
 			include ParseHelper
 
+			# Constructor
 			def initialize(options = {})
 				@project_id = options[:project_id]
 				@session_id = options[:session_id]
@@ -81,19 +84,30 @@ module NluAdapter
 				end
 			end
 
+			# Not implemented
+			# @todo check back
+			#
 			def get_intent_collection(name)
 			end
 
+			# Not implemented
+			# @todo check back
+			#
 			def new_intent_collection(name, intents)
 			end
 
+			# Not implemented
+			# @todo check back
+			#
 			def create_intent_collection(collection)
 			end
 
+			# Class represents Intent in an IntentCollection
 			class Intent
 				include NluAdapterIntent
 				attr_accessor :id
 
+				# Constructor
 				def initialize(options = {})
 					@name = options[:name] #DF.intent.display_name
 					@id = options[:id] #DF.intent.name
@@ -125,9 +139,11 @@ module NluAdapter
 
 			end
 
+			# Class represents a collection of Intents
 			class IntentCollection
 				include NluAdapterIntentCollection
 
+				# Constructor
 				def initialize(options = {})
 				end
 
