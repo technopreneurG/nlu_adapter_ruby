@@ -1,9 +1,10 @@
 require 'json'
 
-#Class represents a collection of Intents
+# Class represents a collection of Intents
 module NluAdapterIntentCollection
 	attr_accessor :name, :intents
 
+	# Constructor
 	def initialize(name, intents)
 		@name = name
 		@intents = intents

@@ -1,6 +1,6 @@
 require 'json'
 
-#Class represents Intent in an IntentCollection
+# Class represents Intent in an IntentCollection
 module NluAdapterIntent
 	attr_accessor :name, :utterences
 
