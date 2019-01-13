@@ -72,12 +72,44 @@ module NluAdapter
 
 			m = Matrix.zero(class_labels.size)
 
+			@class_totals = Hash[class_labels.collect { |c| [c, 0] }]
 			actual.each_with_index do |vi, i|
 				vj = predicted[i]
 				m[vi, vj] = m[vi, vj] + 1
+				@class_totals[class_labels[vi]] += 1
 			end
+
+			@class_labels = class_labels
+			@actual = actual
+			@predicted = predicted
+
 			@m = m
 			return m
+		end
+
+		def class_totals
+			return @class_totals
+		end
+
+		def tp(class_name)
+			i = @class_labels.index(class_name)
+			return nil if i == nil || @m == nil || @m.empty?
+			@tp = @m[i, i]
+			return @tp
+		end
+
+		def fp(class_name)
+			i = @class_labels.index(class_name)
+			return nil if i == nil || @m == nil || @m.empty?
+			@fp = @m.column(i).sum - tp(class_name)
+			return @fp
+		end
+
+		def fn(class_name)
+			i = @class_labels.index(class_name)
+			return nil if i == nil || @m == nil || @m.empty?
+			@fp = @m.row(i).sum - tp(class_name)
+			return @fp
 		end
 
 		#todo: precision, recall, f1-score

@@ -12,6 +12,22 @@ RSpec.describe NluAdapter::Metrics do
 
 			expect(a.accuracy).to eq 60.0
 			expect(a.confusion_matrix).to eq m
+			b={'class 0'=>1, 'class 1'=> 1, 'class 2' => 3}
+			expect(a.class_totals).to eq b
+
+			expect(a.tp('class 0')).to eq 1
+			expect(a.tp('class 1')).to eq 0
+			expect(a.tp('class 2')).to eq 2
+
+			expect(a.fp('class 0')).to eq 1
+			expect(a.fp('class 1')).to eq 1
+			expect(a.fp('class 2')).to eq 0
+
+			expect(a.fn('class 0')).to eq 0
+			expect(a.fn('class 1')).to eq 1
+			expect(a.fn('class 2')).to eq 1
+
+
 		end
 
 		it "check accuracy & confusion matrix - test #2" do
@@ -23,13 +39,16 @@ RSpec.describe NluAdapter::Metrics do
 
 			expect(a.accuracy).to eq 66.6667
 			expect(a.confusion_matrix).to eq m
+
+			expect(a.tp('class 0')).to eq 2
+			expect(a.tp('class 1')).to eq 0
+			expect(a.tp('class 2')).to eq 2
 		end
 
 		it "check accuracy & confusion matrix - test #3" do
 			actual=["cat", "ant", "cat", "cat", "ant", "bird"]
 			pred=["ant", "ant", "cat", "cat", "ant", "cat"]
 			class_names = ['class 0', 'class 1', 'class 2']
-			m = Matrix[[2, 0, 0], [0, 0, 1], [1, 0, 2]]
 			a = NluAdapter::Metrics.new(actual, pred, class_names)
 
 			expect(a.accuracy).to eq 66.6667
