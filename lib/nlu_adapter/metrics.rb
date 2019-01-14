@@ -87,6 +87,8 @@ module NluAdapter
 			return m
 		end
 
+		# Get totals of actual values per class
+		# @return [Hash] Hash of class totals
 		def class_totals
 			return @class_totals
 		end
