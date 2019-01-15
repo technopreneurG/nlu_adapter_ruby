@@ -96,22 +96,35 @@ module NluAdapter
 		def tp(class_name)
 			i = @class_labels.index(class_name)
 			return nil if i == nil || @m == nil || @m.empty?
-			@tp = @m[i, i]
-			return @tp
+			tp = @m[i, i]
+			return tp
 		end
 
 		def fp(class_name)
 			i = @class_labels.index(class_name)
 			return nil if i == nil || @m == nil || @m.empty?
-			@fp = @m.column(i).sum - tp(class_name)
-			return @fp
+			fp = @m.column(i).sum - tp(class_name)
+			return fp
 		end
 
 		def fn(class_name)
 			i = @class_labels.index(class_name)
 			return nil if i == nil || @m == nil || @m.empty?
-			@fp = @m.row(i).sum - tp(class_name)
-			return @fp
+			fn = @m.row(i).sum - tp(class_name)
+			return fn
+		end
+
+		def precision(class_name)
+			confusion_matrix
+			precision = tp(class_name).fdiv((tp(class_name) + fp(class_name))).round(4)
+			return precision
+		end
+
+		def recall(class_name)
+			confusion_matrix
+			recall = tp(class_name).fdiv((tp(class_name) + fn(class_name))).round(4)
+
+			return recall
 		end
 
 		#todo: precision, recall, f1-score

@@ -27,6 +27,8 @@ RSpec.describe NluAdapter::Metrics do
 			expect(a.fn('class 1')).to eq 1
 			expect(a.fn('class 2')).to eq 1
 
+			expect(a.precision('class 0')).to eq 0.5
+			expect(a.recall('class 0')).to eq 1.0
 
 		end
 
@@ -40,9 +42,23 @@ RSpec.describe NluAdapter::Metrics do
 			expect(a.accuracy).to eq 66.6667
 			expect(a.confusion_matrix).to eq m
 
+			b={'class 0'=>2, 'class 1'=> 1, 'class 2' => 3}
+			expect(a.class_totals).to eq b
+
 			expect(a.tp('class 0')).to eq 2
 			expect(a.tp('class 1')).to eq 0
 			expect(a.tp('class 2')).to eq 2
+
+			expect(a.fp('class 0')).to eq 1
+			expect(a.fp('class 1')).to eq 0
+			expect(a.fp('class 2')).to eq 1
+
+			expect(a.fn('class 0')).to eq 0
+			expect(a.fn('class 1')).to eq 1
+			expect(a.fn('class 2')).to eq 1
+
+			expect(a.precision('class 0')).to eq 0.6667
+			expect(a.recall('class 0')).to eq 1.0
 		end
 
 		it "check accuracy & confusion matrix - test #3" do
