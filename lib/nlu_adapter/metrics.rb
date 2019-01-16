@@ -89,10 +89,15 @@ module NluAdapter
 
 		# Get totals of actual values per class
 		# @return [Hash] Hash of class totals
+		#
 		def class_totals
 			return @class_totals
 		end
 
+		# Get total positives
+		# @param class_name [String] class name
+		# @return [Integer] total positive value for class_name
+		#
 		def tp(class_name)
 			i = @class_labels.index(class_name)
 			return nil if i == nil || @m == nil || @m.empty?
@@ -100,6 +105,10 @@ module NluAdapter
 			return tp
 		end
 
+		# Get false positive
+		# @param class_name [String] class name
+		# @return [Integer] false positive value for class_name
+		#
 		def fp(class_name)
 			i = @class_labels.index(class_name)
 			return nil if i == nil || @m == nil || @m.empty?
@@ -107,6 +116,10 @@ module NluAdapter
 			return fp
 		end
 
+		# Get false negative
+		# @param class_name [String] class name
+		# @return [Integer] false negative value for class_name
+		#
 		def fn(class_name)
 			i = @class_labels.index(class_name)
 			return nil if i == nil || @m == nil || @m.empty?
@@ -114,12 +127,20 @@ module NluAdapter
 			return fn
 		end
 
+		# Get the precision for given class
+		# @param class_name [String] class name
+		# @return [Float] precision rounded off to 4 decimal places
+		#
 		def precision(class_name)
 			confusion_matrix
 			precision = tp(class_name).fdiv((tp(class_name) + fp(class_name))).round(4)
 			return precision
 		end
 
+		# Get the recall for given class
+		# @param class_name [String] class name
+		# @return [Float] recall rounded off to 4 decimal places
+		#
 		def recall(class_name)
 			confusion_matrix
 			recall = tp(class_name).fdiv((tp(class_name) + fn(class_name))).round(4)
@@ -127,7 +148,7 @@ module NluAdapter
 			return recall
 		end
 
-		#todo: precision, recall, f1-score
+		#todo: f1-score
 	end
 end
 
