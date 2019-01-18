@@ -38,5 +38,17 @@ RSpec.describe NluAdapter::Adapters::Lex do
 			i = lp.parse('need a hotel room')
 			expect(i[:intent_name]).to eq 'BookHotel'
 		end
+
+		it "parse report: 1" do
+			resp = Resp.new
+			resp.intent_name = 'BookHotel'
+			allow(@lex).to receive(:post_text).and_return(resp)
+
+			lp = NluAdapter.new(:Lex)
+			got = lp.parse_test_report({"BookHotel":["please book a hotel"],"intent1":["book me a hotel, please","book a hotel"]})
+
+			expected = {:accuracy=>33.3333, :classification_report => {:BookHotel=>{:class_total=>1, :precision=>0.3333, :recall=>1.0}, :intent1=>{:class_total=>2, :precision=>0.0, :recall=>0.0}}, :confusion_matrix => Matrix[[1, 0], [2, 0]]}
+			expect(got).to eq expected
+		end
 	end
 end

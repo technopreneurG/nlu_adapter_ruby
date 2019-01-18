@@ -70,8 +70,8 @@ module NluAdapter
 		# run the parse tests with test_data and generate test report
 		#
 		# @param test_data [Json]: Test data in specified format
-		# @return [test_report]: generate a test report (Only Accurcacy is available)
-		# @todo Precision, Recall, F1-Score
+		# @return [test_report]: generate a test report
+		# @todo F1-Score
 		#
 		def parse_test_report(test_data)
 			test_results = parse_test(test_data)
@@ -84,7 +84,7 @@ module NluAdapter
 
 			m = Metrics.new(expected, got)
 
-			return {accuracy: m.accuracy, confusion_matrix: m.confusion_matrix}
+			return {accuracy: m.accuracy, confusion_matrix: m.confusion_matrix, classification_report: m.classification_report}
 		end
 
 		private

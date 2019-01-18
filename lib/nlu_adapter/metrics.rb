@@ -17,6 +17,10 @@ module NluAdapter
 			@actual = actual
 			@predicted = predicted
 			@class_labels = class_labels
+
+			@actual.map!{ |a| a.is_a?(String)? a.intern : a }
+			@predicted.map!{ |p| p.is_a?(String)? p.intern : p }
+			@class_labels.map!{ |l| l.is_a?(String)? l.intern : l }
 		end
 
 		# Caclulate the accuracy
@@ -49,7 +53,8 @@ module NluAdapter
 
 			#if no class_labels, convert to numeric values, and extract the class_labels
 			if @class_labels.empty?
-				class_labels = (@actual + @predicted).uniq.sort
+				class_labels = (@actual + @predicted).sort.uniq.sort
+				class_labels.map!{|c| c.intern}
 				@actual.each_with_index do |v, i|
 					actual[i] = class_labels.index(v)
 				end
@@ -59,12 +64,12 @@ module NluAdapter
 				end
 			else
 				#check if any string passed in actual/predicted
-				i = actual.select { |a| a.is_a?(String) }.size
-				j = predicted.select { |a| a.is_a?(String) }.size
+				i = actual.select { |a| a.is_a?(Symbol) }.size
+				j = predicted.select { |p| p.is_a?(Symbol) }.size
 
 				if i > 0 || j > 0
 					#todo: fix it OR throw error
-					puts "actual, predicted & class_labels array having string values not implemented"
+					puts "actual, predicted & class_labels array having string values not implemented yet"
 					return
 
 				end
@@ -99,7 +104,7 @@ module NluAdapter
 		# @return [Integer] total positive value for class_name
 		#
 		def tp(class_name)
-			i = @class_labels.index(class_name)
+			i = @class_labels.index(class_name.intern)
 			return nil if i == nil || @m == nil || @m.empty?
 			tp = @m[i, i]
 			return tp
@@ -110,7 +115,7 @@ module NluAdapter
 		# @return [Integer] false positive value for class_name
 		#
 		def fp(class_name)
-			i = @class_labels.index(class_name)
+			i = @class_labels.index(class_name.intern)
 			return nil if i == nil || @m == nil || @m.empty?
 			fp = @m.column(i).sum - tp(class_name)
 			return fp
@@ -121,7 +126,7 @@ module NluAdapter
 		# @return [Integer] false negative value for class_name
 		#
 		def fn(class_name)
-			i = @class_labels.index(class_name)
+			i = @class_labels.index(class_name.intern)
 			return nil if i == nil || @m == nil || @m.empty?
 			fn = @m.row(i).sum - tp(class_name)
 			return fn
@@ -132,7 +137,8 @@ module NluAdapter
 		# @return [Float] precision rounded off to 4 decimal places
 		#
 		def precision(class_name)
-			confusion_matrix
+			confusion_matrix if !@m
+			return 0.00 if tp(class_name) == 0
 			precision = tp(class_name).fdiv((tp(class_name) + fp(class_name))).round(4)
 			return precision
 		end
@@ -142,10 +148,28 @@ module NluAdapter
 		# @return [Float] recall rounded off to 4 decimal places
 		#
 		def recall(class_name)
-			confusion_matrix
+			confusion_matrix if !@m
+			return 0.00 if tp(class_name) == 0
 			recall = tp(class_name).fdiv((tp(class_name) + fn(class_name))).round(4)
 
 			return recall
+		end
+
+		# Generate classification report
+		# @return [Hash] precision, recall and totals for each class name as key
+		#
+		def classification_report
+			confusion_matrix if !@m
+			report = {}
+			@class_labels.each do |label|
+				report[label] = {
+					precision: precision(label),
+					recall: recall(label),
+					class_total: class_totals[label]
+				}
+			end
+
+			return report
 		end
 
 		#todo: f1-score
