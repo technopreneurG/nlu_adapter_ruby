@@ -1,13 +1,13 @@
-
-
 require 'aws-sdk-lex'
 require 'aws-sdk-lexmodelbuildingservice'
 
 module NluAdapter
 	module Adapters
+		# AWS Lex wrapper class
 		class Lex
 			include ParseHelper
 
+			# Constructor
 			def initialize(options = {})
 				#creds & region from config/env
 				@bot_name = options[:bot_name]
@@ -132,9 +132,11 @@ module NluAdapter
 				resp = @lexm_client.put_bot(collection.to_h)
 			end
 
-			# Classes
+			# Class represents Intent in an IntentCollection
 			class Intent
 				include NluAdapterIntent
+
+				# Constructor
 				def initialize(options = {})
 					@name = options[:name]
 					@version = options[:version]
@@ -163,11 +165,12 @@ module NluAdapter
 				end
 			end
 
-			#Classes
+			# Class represents a collection of Intents
 			class IntentCollection
 				include NluAdapterIntentCollection
 				attr_accessor :extra
 
+				# Constructor
 				def initialize(options = {})
 					@name = options[:name]
 					@checksum = options[:checksum]
