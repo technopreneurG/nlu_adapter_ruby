@@ -1,3 +1,5 @@
+# @markup markdown
+
 # NluAdapter::Lex
 
 Adapter for Aws Lex

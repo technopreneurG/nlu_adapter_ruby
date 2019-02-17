@@ -1,3 +1,5 @@
+# @markup markdown
+
 # NluAdapter::Dialogflow
 
 Adapter for Google Dialogflow

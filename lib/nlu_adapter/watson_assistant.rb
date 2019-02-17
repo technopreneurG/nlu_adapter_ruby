@@ -14,7 +14,6 @@ module NluAdapter
 			def initialize(options = {})
 				@url = options[:url] || "https://gateway-lon.watsonplatform.net/assistant/api"
 				@version = options[:version] || "2018-09-20"
-				@workspace_id = options[:workspace_id]
 				begin
 					@assistant = AssistantV1.new(
 						iam_apikey: ENV["WATSON_API_KEY"],
