@@ -49,4 +49,8 @@ Gem::Specification.new do |spec|
 
   #An implementation of Matrix and Vector classes.
   spec.add_dependency('matrix', '~> 0.1.0')
+
+  #Official client library to use the IBM Watson Services
+  spec.add_dependency('ibm_watson', '~> 0.12.0')
+
 end
