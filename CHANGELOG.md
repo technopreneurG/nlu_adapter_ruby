@@ -1,8 +1,14 @@
-0.1.4
+0.1.5 (22/Feb/2019)
+---
+* Added IBM Watson Assistant
+* Updated documentation
+
+0.1.4 (19/Jan/2019)
 ---
 * Fixed a bad push
+  * Note/Update: It was not bad! www.rubydoc.info was not refreshing for some strange reason
 
-0.1.3
+0.1.3 (19/Jan/2019)
 ---
 * New functionalities:
   * bulk_parse - parse multiple texts
