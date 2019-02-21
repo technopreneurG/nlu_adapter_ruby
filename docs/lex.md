@@ -6,9 +6,12 @@ Adapter for Aws Lex
 
 ## Setup
 
+Please check the [documentation](https://aws.amazon.com/lex/).
+
 ## Examples
 
 1. Parse a text and identify intent from an existing Lex bot
+
 ```ruby
 require 'nlu_adapter'
 
@@ -21,6 +24,7 @@ puts l.parse('I want to book a hotel')
 {:intent_name=>"BookHotel"}
 ```
 2. Create an intent
+
 ```ruby
 require 'nlu_adapter'
 
@@ -32,6 +36,7 @@ l.create_intent(i)
 ```
 
 3. Create an intent collection
+
 ```ruby
 
 require 'nlu_adapter'
@@ -47,6 +52,7 @@ l.create_intent_collection(ic)
 ```
 
 ## Running examples
+
 ```bash
 $ cat test-lex-1.rb
 require 'nlu_adapter'

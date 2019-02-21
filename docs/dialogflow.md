@@ -6,10 +6,12 @@ Adapter for Google Dialogflow
 
 ## Setup
 
+Please check the [documentation](https://dialogflow.com/).
 
 ## Examples
 
-1. Parse a text and identify intent from an existing Lex bot
+1. Parse a text and identify intent from an existing Dialogflow bot
+
 ```ruby
 require 'nlu_adapter'
 
@@ -22,6 +24,7 @@ puts d.parse('I want to book a hotel')
 {:intent_name=>"BookHotel"}
 ```
 2. Create an intent
+
 ```ruby
 require 'nlu_adapter'
 
@@ -37,6 +40,7 @@ d.create_intent(i)
 Create an Agent from Dialogflow console.
 
 ## Running examples
+
 ```bash
 $ cat test-df-1.rb
 require 'nlu_adapter'

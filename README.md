@@ -31,7 +31,7 @@ NLU Service | Intent | Intet Collection | Intent identification
 ----------- | ------ | ---------------- | ---------------------
 [Aws Lex](https://aws.amazon.com/lex/) ([doc](docs/lex.md)) | C,R,U | C,R,U | Yes
 [Google Dialogflow](https://dialogflow.com/) ([doc](docs/dialogflow.md)) | C,R,U | To-Do | Yes
-[IBM Watson Assistant](https://cloud.ibm.com/catalog/services/watson-assistant) ([doc](docs/watson_assistant.md)) | To-Do | To-Do | Yes
+[IBM Watson Assistant](https://cloud.ibm.com/catalog/services/watson-assistant) ([doc](docs/watson_assistant.md)) | C,R,U | To-Do | Yes
 
 ## Classification metrics
 ### Supported intent classification metrics
