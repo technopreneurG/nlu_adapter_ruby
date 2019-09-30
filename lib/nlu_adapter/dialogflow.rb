@@ -22,10 +22,15 @@ module NluAdapter
 				sessions_client = Google::Cloud::Dialogflow::Sessions.new(version: :v2)
 				formatted_session = Google::Cloud::Dialogflow::V2::SessionsClient.session_path(@project_id, @session_id)
 				language_code = 'en'
+				intent_name = nil
+
 				query_input = Google::Cloud::Dialogflow::V2::QueryInput.new({text: {language_code: language_code, text: text}})
 				response = sessions_client.detect_intent(formatted_session, query_input)
 
-				return { intent_name: response.query_result.intent.display_name }
+				unless response.nil? || response.query_result.nil? || response.query_result.intent.nil? || response.query_result.intent.display_name.empty?
+					intent_name = response.query_result.intent.display_name
+				end
+				return { intent_name: intent_name }
 			end
 
 			# Get an instance of Intent, if it exists else nil

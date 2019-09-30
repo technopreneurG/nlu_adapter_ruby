@@ -70,10 +70,11 @@ module NluAdapter
 		# run the parse tests with test_data and generate test report
 		#
 		# @param test_data [Json]: Test data in specified format
+		# @param output_format [Symbol] supported formats :json or :hash
 		# @return [test_report]: generate a test report
 		# @todo F1-Score
 		#
-		def parse_test_report(test_data)
+		def parse_test_report(test_data, output_format = :hash)
 			test_results = parse_test(test_data)
 			expected = []
 			got = []
@@ -82,9 +83,22 @@ module NluAdapter
 				got << result[:got]
 			end
 
-			m = Metrics.new(expected, got)
+			test_report = {accuracy: 0, confusion_matrix: {}, classification_report: {}}
+			if !got.reject { |e| e.to_s.empty? }.empty?
+				m = Metrics.new(expected, got)
 
-			return {accuracy: m.accuracy, confusion_matrix: m.confusion_matrix, classification_report: m.classification_report}
+				test_report = {accuracy: m.accuracy, confusion_matrix: m.confusion_matrix, classification_report: m.classification_report}
+			end
+
+			case output_format
+			when :json
+				return test_report.to_json
+			when :hash
+				return test_report
+			else
+				puts 'Warning: valid format not specified'
+				return test_report
+			end
 		end
 
 		private
