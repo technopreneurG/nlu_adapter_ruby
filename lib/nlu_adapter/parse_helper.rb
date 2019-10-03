@@ -28,19 +28,63 @@ module NluAdapter
 		#
 		#  Example input/output
 		#  test_data
-		#   {"BookHotel":["please book a hotel"],"intent1":["book me a hotel, please","book a hotel"]}
+		#    {
+		#      "Intent1"=>["APR for personal credit cards", "interest rates for personal credit cards"], 
+		#      "Intent2"=>["Am I still part of the rewards program?", "Am I still in the loyalty program?"]
+		#    }
 		#  test_results
-		#   json:
-		#   [{"text":"book me a hotel, please","expected":"intent1","got":"BookHotel"},{"text":"book a hotel","expected":"intent1","got":"BookHotel"},{"text":"please book a hotel","expected":"BookHotel","got":"BookHotel"}]
-		#   csv:
-		#   "book me a hotel, please",intent1,BookHotel
-		#   book a hotel,intent1,BookHotel
-		#   please book a hotel,BookHotel,BookHotel
-		#   hash:
-		#   [{:text=>"book me a hotel, please", :expected=>"intent1", :got=>"BookHotel"}, {:text=>"book a hotel", :expected=>"intent1", :got=>"BookHotel"}, {:text=>"please book a hotel", :expected=>"BookHotel", :got=>"BookHotel"}]
+		#    json:
+		#      [
+		#         {
+		#            "text" : "APR for personal credit cards",
+		#            "expected" : "Intent1",
+		#            "got" : "Intent1"
+		#         },
+		#         {
+		#            "text" : "interest rates for personal credit cards",
+		#            "expected" : "Intent1",
+		#            "got" : "Intent1"
+		#         },
+		#         {
+		#            "text" : "Am I still part of the rewards program?",
+		#            "expected" : "Intent2",
+		#            "got" : "Intent3"
+		#         },
+		#         {
+		#            "text" : "Am I still in the loyalty program?",
+		#            "expected" : "Intent2",
+		#            "got" : "Intent3"
+		#         }
+		#      ]
+		#    csv:
+		#      APR for personal credit cards,Intent1,Intent1
+		#      interest rates for personal credit cards,Intent1,Intent1
+		#      Am I still part of the rewards program?,Intent2,Intent3
+		#      Am I still in the loyalty program?,Intent2,Intent3
+		#    hash:
+		#      [
+		#        {:text=>"APR for personal credit cards", :expected=>"Intent1", :got=>"Intent1"},
+		#        {:text=>"interest rates for personal credit cards", :expected=>"Intent1", :got=>"Intent1"},
+		#        {:text=>"Am I still part of the rewards program?", :expected=>"Intent2", :got=>"Intent3"},
+		#        {:text=>"Am I still in the loyalty program?", :expected=>"Intent2", :got=>"Intent3"}
+		#      ]
+		#    yaml:
+		#      ---
+		#      - :text: APR for personal credit cards
+		#        :expected: Intent1
+		#        :got: Intent1
+		#      - :text: interest rates for personal credit cards
+		#        :expected: Intent1
+		#        :got: Intent1
+		#      - :text: Am I still part of the rewards program?
+		#        :expected: Intent2
+		#        :got: Intent3
+		#      - :text: Am I still in the loyalty program?
+		#        :expected: Intent2
+		#        :got: Intent3
 		#
 		# @param test_data [Json]: Test data in specified format
-		# @param output_format [Symbol] supported formats :csv, :json or :hash
+		# @param output_format [Symbol] supported formats :csv, :json, :yaml or :hash
 		# @return [test_results]: output the test results in expected format
 		#
 		def parse_test(test_data, output_format = :hash)
@@ -59,6 +103,8 @@ module NluAdapter
 				return to_csv(test_results)
 			when :hash
 				return test_results
+			when :yaml
+				return test_results.to_yaml
 			else
 				puts 'Warning: valid format not specified'
 				return test_results
