@@ -1,5 +1,6 @@
 require 'csv'
 require 'json'
+require 'yaml'
 
 #helper functions to parse text and match intent
 module NluAdapter
