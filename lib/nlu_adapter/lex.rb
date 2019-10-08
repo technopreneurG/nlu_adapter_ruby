@@ -38,7 +38,9 @@ module NluAdapter
 						input_text: text, # required
 					})
 
-					unless resp.intent_name.nil? || resp.intent_name.empty?
+					if resp.intent_name.nil? || resp.intent_name.empty?
+						intent_name = :NO_INTENT_FOUND
+					else
 						intent_name = resp.intent_name  #=> String
 					end
 				rescue Aws::Lex::Errors::ServiceError => e
