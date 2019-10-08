@@ -21,17 +21,17 @@ Or install it yourself as:
 
 ## Usage
 
-Check [documentation](docs) for usage.
+* Check [documentation](docs) for usage.
+* Check [nlu toolset](https://github.com/technopreneurG/nlu_tools_ruby) on how this lib is utilised to create cli tools.
 
 ## NLU Adapter support matrix
 
-C: Create, R: Get, U: Update, D: Delete
-
-NLU Service | Intent | Intet Collection | Intent identification
------------ | ------ | ---------------- | ---------------------
-[Aws Lex](https://aws.amazon.com/lex/) ([doc](docs/lex.md)) | C,R,U | C,R,U | Yes
-[Google Dialogflow](https://dialogflow.com/) ([doc](docs/dialogflow.md)) | C,R,U | To-Do | Yes
-[IBM Watson Assistant](https://cloud.ibm.com/catalog/services/watson-assistant) ([doc](docs/watson_assistant.md)) | C,R,U | To-Do | Yes
+| NLU Service | Intent | Intent | Intent | Intent Collection | Intent Collection | Intent Collection | Intent identification
+|--- | --- | --- | --- | --- | --- | --- | ---
+| | **Create** | **Get** | **Update**  | **Create** | **Get** | **Update** |
+[Aws Lex](https://aws.amazon.com/lex/) ([doc](docs/lex.md)) | Yes | Yes | Yes | Yes | Yes | Yes | Yes
+[Google Dialogflow](https://dialogflow.com/) ([doc](docs/dialogflow.md)) | Yes | Yes | Yes | To-Do | To-Do | To-Do | Yes
+[IBM Watson Assistant](https://cloud.ibm.com/catalog/services/watson-assistant) ([doc](docs/watson_assistant.md)) | Yes | Yes | Yes | To-Do | To-Do | To-Do | Yes
 
 ## Classification metrics
 ### Supported intent classification metrics
@@ -39,6 +39,13 @@ NLU Service | Intent | Intet Collection | Intent identification
 * Confusion Matrix
 * Precision (per Class)
 * Recall (per Class)
+
+### Supported intent classification report formats
+* JSON
+* CSV
+* YAML
+* Ruby-Hash
+
 
 ## Development
 
