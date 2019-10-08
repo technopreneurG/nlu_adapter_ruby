@@ -22,6 +22,7 @@ Gem::Specification.new do |spec|
     spec.metadata["homepage_uri"] = spec.homepage
     spec.metadata["source_code_uri"] = "https://github.com/technopreneurG/nlu_adapter_ruby"
     spec.metadata["changelog_uri"] = "https://github.com/technopreneurG/nlu_adapter_ruby/blob/master/CHANGELOG.md"
+    spec.metadata["documentation_uri"] = "https://www.rubydoc.info/gems/nlu_adapter"
   else
     raise "RubyGems 2.0 or newer is required to protect against " \
       "public gem pushes."

@@ -1,3 +1,8 @@
+0.1.6
+---
+* enhancements to test report
+  * added support for :json, :csv, :yaml and :hash formats
+
 0.1.5 (22/Feb/2019)
 ---
 * Added IBM Watson Assistant
