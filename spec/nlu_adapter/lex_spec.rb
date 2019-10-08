@@ -71,7 +71,8 @@ RSpec.describe NluAdapter::Adapters::Lex do
 			lp = NluAdapter.new(:Lex)
 			got = lp.parse_test_report({"BookHotel":["please book a hotel"],"intent1":["book me a hotel, please","book a hotel"]}, :csv)
 
-			expected = "Accuracy,33.3333
+			expected = <<RESPONSE
+Accuracy,33.3333
 CONFUSION MATRIX:
 \"\",BookHotel,intent1
 BookHotel,1,0
@@ -80,7 +81,7 @@ CLASSIFICATION REPORT:
 Class,Precision,Recall,Class total
 BookHotel,0.3333,1.0,1
 intent1,0.0,0.0,2
-"
+RESPONSE
 			expect(got).to eq expected
 		end
 
@@ -92,7 +93,8 @@ intent1,0.0,0.0,2
 			lp = NluAdapter.new(:Lex)
 			got = lp.parse_test_report({"BookHotel":["please book a hotel"],"intent1":["book me a hotel, please","book a hotel"]}, :yaml)
 
-			expected = "---
+			expected = <<RESPONSE
+---
 :accuracy: 33.3333
 :confusion_matrix: !ruby/object:Matrix
   rows:
@@ -110,7 +112,53 @@ intent1,0.0,0.0,2
     :precision: 0.0
     :recall: 0.0
     :class_total: 2
-"
+RESPONSE
+			expect(got).to eq expected
+		end
+
+		it "parse report: with different resp" do
+			resp1 = Resp.new
+			resp1.intent_name = "BookHotel"
+			resp2 = Resp.new
+			resp2.intent_name = "BookHotel"
+			resp3 = Resp.new
+			resp3.intent_name = "intent1"
+			allow(@lex).to receive(:post_text).and_return(resp1, resp2, resp3)
+
+			lp = NluAdapter.new(:Lex)
+			got = lp.parse_test_report({"BookHotel":["please book a hotel"],"intent1":["book me a hotel, please","book a hotel"]})
+
+			expected = {:accuracy=>66.6667, :confusion_matrix=>Matrix[[1, 0], [1, 1]], :classification_report=>{:BookHotel=>{:precision=>0.5, :recall=>1.0, :class_total=>1}, :intent1=>{:precision=>1.0, :recall=>0.5, :class_total=>2}}}
+
+			expect(got).to eq expected
+		end
+
+		it "parse report: with one nil resp" do
+			resp1 = Resp.new
+			resp1.intent_name = "BookHotel"
+			resp2 = Resp.new
+			resp2.intent_name = nil
+			resp3 = Resp.new
+			resp3.intent_name = "BookHotel"
+			allow(@lex).to receive(:post_text).and_return(resp1, resp2, resp3)
+
+			lp = NluAdapter.new(:Lex)
+			got = lp.parse_test_report({"BookHotel":["please book a hotel"],"intent1":["book me a hotel, please","book a hotel"]})
+
+			expected = {:accuracy=>33.3333, :confusion_matrix=>Matrix[[1, 0, 0], [0, 0, 0], [1, 1, 0]], :classification_report=>{:BookHotel=>{:precision=>0.5, :recall=>1.0, :class_total=>1}, :NO_INTENT_FOUND=>{:precision=>0.0, :recall=>0.0, :class_total=>0}, :intent1=>{:precision=>0.0, :recall=>0.0, :class_total=>2}}}
+
+			expect(got).to eq expected
+		end
+
+		it "parse report: with all nil resp" do
+			resp = Resp.new
+			resp.intent_name = nil
+			allow(@lex).to receive(:post_text).and_return(resp)
+
+			lp = NluAdapter.new(:Lex)
+			got = lp.parse_test_report({"BookHotel":["please book a hotel"],"intent1":["book me a hotel, please","book a hotel"]})
+
+			expected = {:accuracy=>0.0, :confusion_matrix=>Matrix[[0, 1, 0], [0, 0, 0], [0, 2, 0]], :classification_report=>{:BookHotel=>{:precision=>0.0, :recall=>0.0, :class_total=>1}, :NO_INTENT_FOUND=>{:precision=>0.0, :recall=>0.0, :class_total=>0}, :intent1=>{:precision=>0.0, :recall=>0.0, :class_total=>2}}}
 			expect(got).to eq expected
 		end
 	end
