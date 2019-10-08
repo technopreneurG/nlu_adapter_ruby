@@ -32,7 +32,7 @@ module NluAdapter
 			# @return [Json] return the identified intent name
 			#
 			def parse(text)
-				intent_name = nil
+				intent_name = :NO_INTENT_FOUND
 				begin
 					response = @assistant.message(
 						workspace_id: @workspace_id,
@@ -41,7 +41,9 @@ module NluAdapter
 						}
 					)
 
-					intent_name = response.result["intents"][0]["intent"]
+					unless response.nil? || response.result.nil? || response.result["intents"].nil? || response.result["intents"][0].nil?
+						intent_name = response.result["intents"][0]["intent"]
+					end
 				rescue WatsonApiException => ex
 					puts "Error: #{ex.inspect}"
 				end

@@ -23,7 +23,7 @@ module NluAdapter
 			# @return [Json] return the identified intent name
 			#
 			def parse(text)
-				intent_name = nil
+				intent_name = :NO_INTENT_FOUND
 				begin
 					resp = @lex_client.post_text({
 						bot_name: @bot_name, # required
@@ -38,9 +38,7 @@ module NluAdapter
 						input_text: text, # required
 					})
 
-					if resp.intent_name.nil? || resp.intent_name.empty?
-						intent_name = :NO_INTENT_FOUND
-					else
+					unless resp.intent_name.nil? || resp.intent_name.empty?
 						intent_name = resp.intent_name  #=> String
 					end
 				rescue Aws::Lex::Errors::ServiceError => e

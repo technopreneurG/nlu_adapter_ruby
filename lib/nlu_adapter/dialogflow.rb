@@ -22,7 +22,7 @@ module NluAdapter
 				sessions_client = Google::Cloud::Dialogflow::Sessions.new(version: :v2)
 				formatted_session = Google::Cloud::Dialogflow::V2::SessionsClient.session_path(@project_id, @session_id)
 				language_code = 'en'
-				intent_name = nil
+				intent_name = :NO_INTENT_FOUND
 
 				query_input = Google::Cloud::Dialogflow::V2::QueryInput.new({text: {language_code: language_code, text: text}})
 				response = sessions_client.detect_intent(formatted_session, query_input)
